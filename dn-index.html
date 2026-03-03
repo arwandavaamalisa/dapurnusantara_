@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dapur Nusantara — Jajanan & Minuman Lokal</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* HERO */
+  .hero {
+    background: var(--yellow);
+    border-bottom: 3px solid var(--dark);
+    overflow: hidden;
+    position: relative;
+    min-height: 88vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+
+  .hero-left { padding: 80px 48px; position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    border: 2px solid var(--dark);
+    box-shadow: 3px 3px 0 var(--dark);
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.0;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+
+  .hero-title em { font-style: italic; color: var(--red); display: block; }
+
+  .hero-desc {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.7;
+    color: rgba(26,26,26,0.7);
+    max-width: 400px;
+    margin: 20px 0 36px;
+  }
+
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .hero-stats {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .h-stat {
+    background: white;
+    border: 2px solid var(--dark);
+    border-radius: 14px;
+    padding: 12px 18px;
+    box-shadow: 3px 3px 0 var(--dark);
+    text-align: center;
+  }
+
+  .h-stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .h-stat-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 3px;
+  }
+
+  .hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+  }
+
+  .hero-emoji-big {
+    font-size: 10rem;
+    animation: bounce 2.5s ease-in-out infinite;
+    filter: drop-shadow(4px 8px 0 rgba(0,0,0,0.12));
+    position: relative;
+    z-index: 2;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-14px) rotate(2deg); }
+  }
+
+  .hero-deco {
+    position: absolute;
+    animation: spin 10s linear infinite;
+    opacity: 0.4;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* FEATURED PRODUCTS */
+  .featured { background: var(--off-white); }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 36px;
+  }
+
+  .see-all {
+    background: none;
+    border: 2px solid var(--dark);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--dark);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .see-all:hover {
+    background: var(--yellow);
+    box-shadow: 3px 3px 0 var(--dark);
+    transform: translate(-1px, -1px);
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .product-card {
+    background: white;
+    border: 2px solid var(--dark);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.2s;
+    box-shadow: 4px 4px 0 var(--dark);
+  }
+
+  .product-card:hover {
+    transform: translate(-3px,-3px);
+    box-shadow: 7px 7px 0 var(--dark);
+  }
+
+  .product-img {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+  }
+
+  .pc1 { background: #FFF3CD; }
+  .pc2 { background: #FFE0E0; }
+  .pc3 { background: #E8F5E9; }
+  .pc4 { background: #E8F4FD; }
+
+  .product-label {
+    position: absolute;
+    top: 10px; left: 10px;
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1.5px solid var(--dark);
+  }
+
+  .label-hot { background: var(--red); color: white; }
+  .label-new { background: var(--yellow); color: var(--dark); }
+
+  .product-body { padding: 16px; }
+  .product-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; line-height: 1.3; }
+  .product-desc { font-size: 0.75rem; color: var(--gray); margin-bottom: 10px; line-height: 1.5; }
+  .product-weight { font-size: 0.68rem; font-weight: 600; color: var(--gray); background: var(--light-gray); padding: 2px 10px; border-radius: 100px; display: inline-block; margin-bottom: 12px; }
+
+  .product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1.5px solid var(--light-gray);
+    padding-top: 12px;
+  }
+
+  .product-price { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; color: var(--red); }
+
+  .add-btn {
+    background: var(--yellow);
+    border: 2px solid var(--dark);
+    border-radius: 10px;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--dark);
+    transition: all 0.2s;
+    color: var(--dark);
+  }
+
+  .add-btn:hover {
+    background: var(--red);
+    color: white;
+    transform: translate(-1px,-1px);
+    box-shadow: 3px 3px 0 var(--dark);
+  }
+
+  /* PROMO */
+  .promo { background: var(--red); border-top: 3px solid var(--dark); border-bottom: 3px solid var(--dark); }
+
+  .promo-inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 40px;
+    align-items: center;
+    padding: 60px 0;
+  }
+
+  .promo-pretitle { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 10px; }
+  .promo-title { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 10px; }
+  .promo-desc { font-size: 0.88rem; color: rgba(255,255,255,0.78); line-height: 1.7; max-width: 400px; }
+
+  .promo-big { font-family: 'Fraunces', serif; font-size: 7rem; font-weight: 700; color: var(--yellow); -webkit-text-stroke: 2px var(--dark); line-height: 1; display: block; text-align: center; }
+  .promo-big-sub { font-size: 0.9rem; font-weight: 800; color: white; letter-spacing: 0.1em; text-transform: uppercase; text-align: center; margin-top: 4px; }
+
+  .promo-code {
+    background: var(--yellow);
+    border: 2px solid var(--dark);
+    border-radius: 16px;
+    padding: 20px 28px;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+    text-align: center;
+  }
+
+  .promo-code-label { font-size: 0.65rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .promo-code-text { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--dark); letter-spacing: 0.08em; }
+  .promo-code-valid { font-size: 0.65rem; color: var(--gray); margin-top: 4px; }
+
+  /* CATEGORIES */
+  .categories-section { background: var(--white); }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 36px;
+  }
+
+  .cat-card {
+    background: var(--off-white);
+    border: 2px solid var(--dark);
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--dark);
+    transition: all 0.2s;
+    text-decoration: none;
+    display: block;
+    color: var(--dark);
+  }
+
+  .cat-card:hover {
+    background: var(--yellow);
+    transform: translate(-3px,-3px);
+    box-shadow: 7px 7px 0 var(--dark);
+  }
+
+  .cat-icon { font-size: 3rem; margin-bottom: 12px; }
+  .cat-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 4px; }
+  .cat-count { font-size: 0.75rem; color: var(--gray); }
+
+  /* CART SIDEBAR */
+  .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-sidebar {
+    position: fixed; top: 0; right: -420px; width: 420px; height: 100vh;
+    background: white; border-left: 3px solid var(--dark); z-index: 201;
+    transition: right 0.4s ease; display: flex; flex-direction: column;
+  }
+
+  .cart-sidebar.open { right: 0; }
+
+  .cart-header {
+    background: var(--yellow); padding: 20px 24px; border-bottom: 2px solid var(--dark);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .cart-title { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; }
+  .cart-close { background: var(--dark); color: var(--yellow); border: none; width: 34px; height: 34px; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+
+  .cart-items { flex: 1; overflow-y: auto; padding: 16px; }
+  .cart-empty { text-align: center; padding: 48px 20px; color: var(--gray); }
+
+  .cart-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--light-gray); align-items: center; }
+  .cart-item-emoji { width: 52px; height: 52px; border-radius: 12px; border: 2px solid var(--dark); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; background: var(--off-white); flex-shrink: 0; }
+  .cart-item-name { font-weight: 700; font-size: 0.85rem; margin-bottom: 3px; }
+  .cart-item-price { font-size: 0.78rem; color: var(--red); font-weight: 700; }
+  .cart-item-qty { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .qty-btn { width: 26px; height: 26px; border: 2px solid var(--dark); border-radius: 8px; background: none; font-size: 0.9rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  .qty-btn:hover { background: var(--yellow); }
+  .qty-num { font-weight: 700; font-size: 0.9rem; min-width: 18px; text-align: center; }
+
+  .cart-footer { padding: 16px; border-top: 2px solid var(--dark); background: var(--off-white); }
+  .cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .cart-total-label { font-weight: 700; font-size: 0.85rem; }
+  .cart-total-num { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--red); }
+
+  .cart-wa-btn {
+    width: 100%; background: #25D366; color: white; border: 2px solid var(--dark);
+    border-radius: 100px; padding: 13px; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0 var(--dark); transition: all 0.2s;
+  }
+
+  .cart-wa-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--dark); }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(28px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+
+  .hero-left > * { animation: fadeUp 0.7s ease both; }
+  .hero-left > *:nth-child(1) { animation-delay: 0.05s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.15s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.25s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.35s; }
+  .hero-left > *:nth-child(5) { animation-delay: 0.45s; }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 60px 20px 40px; }
+    .hero-right { height: 200px; }
+    .product-grid { grid-template-columns: 1fr 1fr; }
+    .cat-grid { grid-template-columns: 1fr 1fr; }
+    .promo-inner { grid-template-columns: 1fr; text-align: center; padding: 40px 0; gap: 24px; }
+    .promo-desc { margin: 0 auto; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .cart-sidebar { width: 100%; right: -100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <div class="cart-title">🛒 Keranjang</div>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <div class="cart-total-label">Total</div>
+      <div class="cart-total-num" id="cartTotal">Rp 0</div>
+    </div>
+    <button class="cart-wa-btn" onclick="checkoutWA()">💬 Pesan via WhatsApp</button>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <span class="marquee-content">🍪 GRATIS ONGKIR MIN. Rp 100.000 &nbsp;•&nbsp; 🎁 DISKON 20% MEMBER BARU — KODE: BARU20 &nbsp;•&nbsp; 🚀 SAME DAY DELIVERY &nbsp;•&nbsp; ⭐ RATING 4.9/5 DARI 500+ PEMBELI &nbsp;•&nbsp; 🍪 GRATIS ONGKIR MIN. Rp 100.000 &nbsp;•&nbsp; 🎁 DISKON 20% MEMBER BARU — KODE: BARU20 &nbsp;•&nbsp; 🚀 SAME DAY DELIVERY &nbsp;•&nbsp; ⭐ RATING 4.9/5 DARI 500+ PEMBELI &nbsp;•&nbsp;</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">🍜 Dapur <span>Nusantara</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">🏠 Home</a></li>
+    <li><a href="products.html">🛍️ Produk</a></li>
+    <li><a href="about.html">❤️ Tentang</a></li>
+    <li><a href="contact.html">📞 Kontak</a></li>
+  </ul>
+  <button class="nav-cart" onclick="toggleCart()">🛒 Keranjang <span class="cart-count">0</span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">🔥 #1 Jajanan Lokal Terpercaya</div>
+    <h1 class="hero-title">Jajanan Enak,<br><em>Harga Oke!</em></h1>
+    <p class="hero-desc">Camilan & minuman lokal pilihan dari seluruh Nusantara. Bahan alami, rasa autentik, dikirim langsung ke pintu rumahmu! 😋</p>
+    <div class="hero-cta">
+      <a href="products.html" class="btn-dark">🛍️ Belanja Sekarang</a>
+      <a href="contact.html" class="btn-red">📞 Hubungi Kami</a>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="h-stat-num">500+</div><div class="h-stat-label">Pembeli Puas</div></div>
+      <div class="h-stat"><div class="h-stat-num">50+</div><div class="h-stat-label">Menu Pilihan</div></div>
+      <div class="h-stat"><div class="h-stat-num">4.9⭐</div><div class="h-stat-label">Rating</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-emoji-big">🍱</div>
+    <div class="hero-deco" style="top:15%;left:10%;font-size:2.5rem;animation-duration:6s">🌶️</div>
+    <div class="hero-deco" style="top:20%;right:10%;font-size:2rem;animation-duration:9s">⭐</div>
+    <div class="hero-deco" style="bottom:20%;left:14%;font-size:2rem;animation-duration:7s">🍪</div>
+    <div class="hero-deco" style="bottom:15%;right:12%;font-size:2.5rem;animation-duration:11s">🧋</div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories-section">
+  <div class="container">
+    <div class="section-tag">✦ Kategori Produk</div>
+    <h2 class="section-title">Mau <em>Cari Apa</em> Hari Ini?</h2>
+    <div class="cat-grid">
+      <a href="products.html?cat=snack" class="cat-card"><div class="cat-icon">🍪</div><div class="cat-name">Snack & Kue</div><div class="cat-count">8 produk</div></a>
+      <a href="products.html?cat=drink" class="cat-card"><div class="cat-icon">🧋</div><div class="cat-name">Minuman</div><div class="cat-count">4 produk</div></a>
+      <a href="products.html?cat=sambal" class="cat-card"><div class="cat-icon">🌶️</div><div class="cat-name">Sambal & Bumbu</div><div class="cat-count">3 produk</div></a>
+      <a href="products.html?cat=frozen" class="cat-card"><div class="cat-icon">❄️</div><div class="cat-name">Frozen Food</div><div class="cat-count">Segera Hadir</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="featured" id="featured">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">✦ Produk Terlaris</div>
+        <h2 class="section-title">Favorit <em>Pelanggan</em> Kami</h2>
+      </div>
+      <a href="products.html" class="see-all">Lihat Semua →</a>
+    </div>
+    <div class="product-grid" id="featuredGrid"></div>
+  </div>
+</section>
+
+<!-- PROMO -->
+<section class="promo">
+  <div class="container">
+    <div class="promo-inner">
+      <div>
+        <div class="promo-pretitle">✦ Promo Spesial</div>
+        <h2 class="promo-title">Pertama Kali Order?<br>Dapat Diskon!</h2>
+        <p class="promo-desc">Masukkan kode promo saat checkout dan dapatkan diskon 20% untuk semua produk. Min. order Rp 100.000</p>
+        <a href="contact.html" class="btn-yellow" style="margin-top:24px;display:inline-block">🛍️ Order Sekarang</a>
+      </div>
+      <div><span class="promo-big">20%</span><div class="promo-big-sub">Diskon Member Baru</div></div>
+      <div>
+        <div class="promo-code">
+          <div class="promo-code-label">Kode Promo</div>
+          <div class="promo-code-text">BARU20</div>
+          <div class="promo-code-valid">*Berlaku s/d 31 Des 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES BAR -->
+<div class="features-bar">
+  <div class="features-grid">
+    <div class="feature-item"><div class="feature-icon">🚀</div><div><div class="feature-title">Same Day Delivery</div><div class="feature-desc">Order sblm jam 12, terima hari ini</div></div></div>
+    <div class="feature-item"><div class="feature-icon">🌿</div><div><div class="feature-title">Bahan Alami</div><div class="feature-desc">Tanpa pengawet berbahaya</div></div></div>
+    <div class="feature-item"><div class="feature-icon">📦</div><div><div class="feature-title">Kemasan Higienis</div><div class="feature-desc">Food-grade packaging</div></div></div>
+    <div class="feature-item"><div class="feature-icon">💬</div><div><div class="feature-title">CS Responsif</div><div class="feature-desc">Fast respon 24 jam via WA</div></div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">🍜 Dapur Nusantara</div>
+        <p class="footer-desc">Jajanan dan minuman lokal pilihan dari seluruh Nusantara. Bahan alami, rasa autentik, harga terjangkau. Bangga produk lokal!</p>
+        <div class="footer-social">
+          <a href="#" class="fs-btn">📸</a>
+          <a href="#" class="fs-btn">📘</a>
+          <a href="#" class="fs-btn">🎵</a>
+          <a href="#" class="fs-btn">💬</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Halaman</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Produk</a></li>
+          <li><a href="about.html">Tentang Kami</a></li>
+          <li><a href="contact.html">Kontak & Order</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Kategori</div>
+        <ul class="footer-links">
+          <li><a href="products.html">Snack & Kue</a></li>
+          <li><a href="products.html">Minuman</a></li>
+          <li><a href="products.html">Sambal & Bumbu</a></li>
+          <li><a href="products.html">Paket Bundle</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Kontak</div>
+        <ul class="footer-links">
+          <li><a href="#">+62 812 9876 5432</a></li>
+          <li><a href="#">@dapurnusantara.id</a></li>
+          <li><a href="#">Senin–Sabtu 08:00–20:00</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 Dapur Nusantara. Bangga Produk Lokal! 🇮🇩</div>
+      <div class="footer-credit">Web design by <a href="https://arwandaamalisa.vercel.app">Wanda Web Studio</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+  // Render featured (first 4 hot products)
+  const featured = PRODUCTS.filter(p => p.label === 'hot').slice(0, 4);
+  const colors = ['pc1','pc2','pc3','pc4'];
+  document.getElementById('featuredGrid').innerHTML = featured.map((p, i) => `
+    <div class="product-card">
+      <div class="product-img ${colors[i % 4]}">
+        ${p.emoji}
+        <div class="product-label label-hot">🔥 Hot</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-weight">📦 ${p.weight}</div>
+        <div class="product-footer">
+          <div class="product-price">${IDR(p.price)}</div>
+          <button class="add-btn" onclick='addToCart(${JSON.stringify(p)})'>+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+</script>
+</body>
+</html>
